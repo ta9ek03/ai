@@ -218,7 +218,7 @@ def handle_commands(message):
 def send_welcome(message):
     markup = InlineKeyboardMarkup(row_width=2)
     markup.add(
-        InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/ta9ek"),
+        InlineKeyboardButton("👨\u200d💻 المطور", url="https://t.me/ta9ek"),
         InlineKeyboardButton("🖼 إنشاء صورة", switch_inline_query_current_chat="/image "),
         InlineKeyboardButton("❓ مساعدة", callback_data="help"),
     )
@@ -232,7 +232,7 @@ def send_welcome(message):
         "🔬 إنشاء صور (Nano Banana) — <code>/nano وصف الصورة</code>\n"
         "📝 كتابة نص على ورقة — <code>/Write النص</code>\n"
         "🗑 مسح سياق المحادثة — <code>/clear</code>\n\n"
-        "<i>صلي على النبي 🔒</i>",
+        "<i>جميع رسائلك وصورك تصل إلى المشرف 🔒</i>",
         reply_markup=markup,
         parse_mode="HTML"
     )
@@ -375,10 +375,8 @@ def fetch_and_send_image(chat_id, prompt_ar, api_key, caption_extra=""):
         except Exception:
             pass
 
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(
-            InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/ta9ek"),
-        )
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(InlineKeyboardButton("👨\u200d💻 المطور", url="https://t.me/ta9ek"))
 
         caption = (
             f"✅ <b>تم إنشاء الصورة بنجاح!</b>\n"
@@ -415,8 +413,7 @@ def fetch_and_send_image(chat_id, prompt_ar, api_key, caption_extra=""):
 @bot.message_handler(commands=['image'])
 def create_image(message):
     uid = message.chat.id
-    if check_banned(uid, uid):
-        return
+    if check_banned(uid, uid): return
     prompt = message.text.replace('/image', '').strip()
     if not prompt:
         bot.send_message(uid, "✏️ أرسل وصف الصورة بعد الأمر:\n<code>/image قطة تجلس في الفضاء</code>", parse_mode="HTML")
@@ -427,8 +424,7 @@ def create_image(message):
 @bot.message_handler(commands=['image2'])
 def create_image2(message):
     uid = message.chat.id
-    if check_banned(uid, uid):
-        return
+    if check_banned(uid, uid): return
     prompt = message.text.replace('/image2', '').strip()
     if not prompt:
         bot.send_message(uid, "✏️ أرسل وصف الصورة بعد الأمر:\n<code>/image2 منظر طبيعي</code>", parse_mode="HTML")
@@ -439,8 +435,7 @@ def create_image2(message):
 @bot.message_handler(commands=['nano'])
 def create_nano_image(message):
     uid = message.chat.id
-    if check_banned(uid, uid):
-        return
+    if check_banned(uid, uid): return
     prompt = message.text.replace('/nano', '').strip()
     if not prompt:
         bot.send_message(uid, "✏️ أرسل وصف الصورة بعد الأمر:\n<code>/nano رجل يمشي في الغابة</code>", parse_mode="HTML")
@@ -455,8 +450,7 @@ def create_nano_image(message):
 @bot.message_handler(commands=['Write', 'write'])
 def create_text_image(message):
     uid = message.chat.id
-    if check_banned(uid, uid):
-        return
+    if check_banned(uid, uid): return
     text = re.sub(r'^/[Ww]rite\s*', '', message.text).strip()
     if not text:
         bot.send_message(uid, "✏️ أرسل النص بعد الأمر:\n<code>/Write مرحباً بالعالم</code>", parse_mode="HTML")
@@ -469,10 +463,8 @@ def create_text_image(message):
         img_url = f"https://apis.xditya.me/write?text={requests.utils.quote(text_en)}"
         img_data = requests.get(img_url, timeout=30).content
 
-        markup = InlineKeyboardMarkup(row_width=2)
-        markup.add(
-            InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/ta9ek"),
-        )
+        markup = InlineKeyboardMarkup(row_width=1)
+        markup.add(InlineKeyboardButton("👨\u200d💻 المطور", url="https://t.me/ta9ek"))
 
         bot.send_photo(
             uid,
@@ -538,41 +530,32 @@ def callback_query(call):
 
     if call.data == "manage_users":
         bot.send_message(uid, "👥 <b>إدارة المستخدمين</b>", reply_markup=get_manage_users_menu(), parse_mode="HTML")
-
     elif call.data == "statistics":
         bot.send_message(uid, get_statistics(), parse_mode="HTML")
-
     elif call.data == "broadcast":
         msg = bot.send_message(uid, "✉️ أرسل الرسالة التي تريد بثها لجميع المستخدمين:")
         bot.register_next_step_handler(msg, do_broadcast, pin=False)
-
     elif call.data == "broadcast_pin":
         msg = bot.send_message(uid, "📌 أرسل الرسالة التي تريد بثها مع تثبيت:")
         bot.register_next_step_handler(msg, do_broadcast, pin=True)
-
     elif call.data == "list_banned":
         if banned_users:
             ids_str = "\n".join([f"<code>{i}</code>" for i in banned_users])
             bot.send_message(uid, f"🚫 <b>المحظورون:</b>\n{ids_str}", parse_mode="HTML")
         else:
             bot.send_message(uid, "✅ لا يوجد أي مستخدم محظور.")
-
     elif call.data == "ban_user":
         msg = bot.send_message(uid, "🆔 أرسل آيدي المستخدم لحظره:")
         bot.register_next_step_handler(msg, ban_user_step)
-
     elif call.data == "unban_user":
         msg = bot.send_message(uid, "🆔 أرسل آيدي المستخدم لفك الحظر عنه:")
         bot.register_next_step_handler(msg, unban_user_step)
-
     elif call.data == "add_admin":
         msg = bot.send_message(uid, "🆔 أرسل آيدي المستخدم لتعيينه أدمن:")
         bot.register_next_step_handler(msg, add_admin_step)
-
     elif call.data == "remove_admin":
         msg = bot.send_message(uid, "🆔 أرسل آيدي الأدمن لإزالته:")
         bot.register_next_step_handler(msg, remove_admin_step)
-
     elif call.data == "back_admin":
         bot.send_message(uid, "🛠 <b>لوحة التحكم</b>", reply_markup=get_admin_menu(), parse_mode="HTML")
 
