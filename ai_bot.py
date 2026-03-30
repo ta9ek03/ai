@@ -232,7 +232,7 @@ def send_welcome(message):
         "🔬 إنشاء صور (Nano Banana) — <code>/nano وصف الصورة</code>\n"
         "📝 كتابة نص على ورقة — <code>/Write النص</code>\n"
         "🗑 مسح سياق المحادثة — <code>/clear</code>\n\n"
-        "<i>جميع رسائلك وصورك تصل إلى المشرف 🔒</i>",
+        "<i>صلي على النبي </i>",
         reply_markup=markup,
         parse_mode="HTML"
     )
