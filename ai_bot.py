@@ -218,8 +218,7 @@ def handle_commands(message):
 def send_welcome(message):
     markup = InlineKeyboardMarkup(row_width=2)
     markup.add(
-        InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/priknm"),
-        InlineKeyboardButton("📢 القناة", url="https://t.me/SSUU_R"),
+        InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/ta9ek"),
         InlineKeyboardButton("🖼 إنشاء صورة", switch_inline_query_current_chat="/image "),
         InlineKeyboardButton("❓ مساعدة", callback_data="help"),
     )
@@ -233,7 +232,7 @@ def send_welcome(message):
         "🔬 إنشاء صور (Nano Banana) — <code>/nano وصف الصورة</code>\n"
         "📝 كتابة نص على ورقة — <code>/Write النص</code>\n"
         "🗑 مسح سياق المحادثة — <code>/clear</code>\n\n"
-        "<i>جميع رسائلك وصورك تصل إلى المشرف 🔒</i>",
+        "<i>صلي على النبي 🔒</i>",
         reply_markup=markup,
         parse_mode="HTML"
     )
@@ -378,8 +377,7 @@ def fetch_and_send_image(chat_id, prompt_ar, api_key, caption_extra=""):
 
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
-            InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/priknm"),
-            InlineKeyboardButton("📢 القناة", url="https://t.me/SSUU_R")
+            InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/ta9ek"),
         )
 
         caption = (
@@ -473,8 +471,7 @@ def create_text_image(message):
 
         markup = InlineKeyboardMarkup(row_width=2)
         markup.add(
-            InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/priknm"),
-            InlineKeyboardButton("📢 القناة", url="https://t.me/SSUU_R")
+            InlineKeyboardButton("👨‍💻 المطور", url="https://t.me/ta9ek"),
         )
 
         bot.send_photo(
